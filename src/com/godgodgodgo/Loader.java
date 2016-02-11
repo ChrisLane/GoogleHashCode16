@@ -71,7 +71,8 @@ public class Loader {
         int productCount = Integer.parseInt(nextLine[0]);
 
         String[] productsLine = getNextLine();
-        for (String product : productsLine)
-            products.add(new Product(Integer.parseInt(product)));
+        for (int i = 0, productsLineLength = productsLine.length; i < productsLineLength; i++) {
+            products.add(new Product(i, Integer.parseInt(productsLine[i])));
+        }
     }
 }
