@@ -64,6 +64,12 @@ public class Loader {
         Parameters.DRONE_COUNT = Integer.parseInt(firstLine[2]);
         Parameters.DEADLINE = Integer.parseInt(firstLine[3]);
         Parameters.MAX_LOAD = Integer.parseInt(firstLine[4]);
+
+        System.out.println("Parameters.ROW_COUNT = " + Parameters.ROW_COUNT);
+        System.out.println("Parameters.COL_COUNT = " + Parameters.COL_COUNT);
+        System.out.println("Parameters.DRONE_COUNT = " + Parameters.DRONE_COUNT);
+        System.out.println("Parameters.DEADLINE = " + Parameters.DEADLINE);
+        System.out.println("Parameters.MAX_LOAD = " + Parameters.MAX_LOAD);
     }
 
     /**
