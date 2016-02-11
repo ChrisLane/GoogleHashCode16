@@ -1,5 +1,7 @@
 package com.godgodgodgo.delivery;
 
+import com.godgodgodgo.Parameters;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +39,14 @@ public class Drone {
         return warehouse;
     }
 
+    public void setWarehouse(Warehouse warehouse) {
+        this.warehouse = warehouse;
+    }
+
+    public int getDistanceToDestination() {
+        return (int) Math.ceil(warehouse.getLocation().distance(destination));
+    }
+
     @Override
     public String toString() {
         return "Drone{" +
@@ -45,5 +55,16 @@ public class Drone {
                 ", id=" + id +
                 ", warehouse=" + warehouse +
                 '}';
+    }
+
+    public boolean canCarry(Product product) {
+        Integer currentWeight = payload.stream().reduce(0, (acc, x) -> acc + x.getProduct().getWeight(), (a, b) -> a + b);
+        return currentWeight + product.getWeight() <= Parameters.MAX_LOAD;
+    }
+
+    public Payload load(Product product) {
+        Payload p = new Payload(product, 1);
+        payload.add(p);
+        return p;
     }
 }

@@ -25,6 +25,10 @@ public class Warehouse {
         return id;
     }
 
+    public Point getLocation() {
+        return location;
+    }
+
     @Override
     public String toString() {
         return "Warehouse{" +

@@ -25,7 +25,7 @@ public class Command {
     }
 
     public static Command createDeliverCommand(Drone drone, Order order, Payload payload) {
-        Command cmd = new Command(drone, CommandType.LOAD);
+        Command cmd = new Command(drone, CommandType.DELIVER);
         cmd.setOrder(order);
         cmd.setPayload(payload);
 
@@ -77,7 +77,7 @@ public class Command {
         return String.format("%d %s %d %d %d",
                 drone.getID(),
                 type.name().charAt(0),
-                type != CommandType.LOAD ? warehouse.getID() : order.getID(),
+                type == CommandType.LOAD ? warehouse.getID() : order.getID(),
                 payload.getProduct().getID(),
                 payload.getCount()
         );
