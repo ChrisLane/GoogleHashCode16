@@ -1,5 +1,9 @@
 package com.godgodgodgo;
 
+import com.godgodgodgo.delivery.Order;
+import com.godgodgodgo.delivery.Product;
+import com.godgodgodgo.delivery.Warehouse;
+
 import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileReader;

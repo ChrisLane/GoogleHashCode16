@@ -1,4 +1,4 @@
-package com.godgodgodgo;
+package com.godgodgodgo.delivery;
 
 public class Product {
     private int id;
