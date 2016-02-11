@@ -80,7 +80,7 @@ public class Loader {
     private void createDrones() {
         drones = new ArrayList<>();
         for (int i = 0; i < Parameters.DRONE_COUNT; i++)
-            drones.add(new Drone(warehouses.get(0)));
+            drones.add(new Drone(i, warehouses.get(0)));
 
         System.out.printf("Created %d drones\n", this.drones.size());
     }
@@ -114,7 +114,7 @@ public class Loader {
             int row = Integer.parseInt(posLine[0]);
             int col = Integer.parseInt(posLine[1]);
 
-            Warehouse warehouse = new Warehouse(new Point(row, col));
+            Warehouse warehouse = new Warehouse(new Point(row, col), i);
 
             String[] productsLine = getNextLine();
             for (int prod = 0; prod < products.size(); prod++)
@@ -134,7 +134,7 @@ public class Loader {
             int row = Integer.parseInt(posLine[0]);
             int col = Integer.parseInt(posLine[1]);
 
-            Order order = new Order(new Point(row, col));
+            Order order = new Order(new Point(row, col), i);
 
             getNextLine(); // unused count
 
@@ -150,5 +150,21 @@ public class Loader {
 
         System.out.printf("Found %d orders\n", orders.size());
 
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public List<Warehouse> getWarehouses() {
+        return warehouses;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public List<Drone> getDrones() {
+        return drones;
     }
 }

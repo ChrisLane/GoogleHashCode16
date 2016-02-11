@@ -7,11 +7,17 @@ import java.util.List;
 public class Drone {
     private Point destination;
     private List<Payload> payload;
+    private int id;
     private Warehouse warehouse;
 
-    public Drone(Warehouse warehouse) {
+    public Drone(int id, Warehouse warehouse) {
+        this.id = id;
         this.warehouse = warehouse;
         payload = new ArrayList<>();
+    }
+
+    public int getID() {
+        return id;
     }
 
     public Point getDestination() {

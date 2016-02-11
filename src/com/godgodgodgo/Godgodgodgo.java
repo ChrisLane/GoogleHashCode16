@@ -15,8 +15,7 @@ public class Godgodgodgo {
         strategy.begin();
 
         for (int i = 0; i < Parameters.DEADLINE; i++) {
-            strategy.tick();
-            if (strategy.isDone())
+            if (strategy.tick())
                 break;
         }
 

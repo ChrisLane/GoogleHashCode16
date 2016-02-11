@@ -8,10 +8,12 @@ import java.awt.*;
 public class Order {
     private Point pos;
     private List<Product> products;
+    private int id;
 
-    public Order(Point pos) {
+    public Order(Point pos, int id) {
         this.pos = pos;
         this.products = new ArrayList<>();
+        this.id = id;
     }
 
     public Point getPosition() {
@@ -20,5 +22,9 @@ public class Order {
 
     public List<Product> getProducts() {
         return products;
+    }
+
+    public int getID() {
+        return id;
     }
 }

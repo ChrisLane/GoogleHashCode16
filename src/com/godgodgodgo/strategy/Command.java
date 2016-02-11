@@ -18,9 +18,26 @@ public class Command {
     private Payload payload;
     private Order order;
 
-    public Command(Drone drone, CommandType type) {
+    private Command(Drone drone, CommandType type) {
         this.drone = drone;
         this.type = type;
+        // no constructor 4 u
+    }
+
+    public static Command createDeliverCommand(Drone drone, Order order, Payload payload) {
+        Command cmd = new Command(drone, CommandType.LOAD);
+        cmd.setOrder(order);
+        cmd.setPayload(payload);
+
+        return cmd;
+    }
+
+    public static Command createLoadCommand(Drone drone, Warehouse warehouse, Payload payload) {
+        Command cmd = new Command(drone, CommandType.LOAD);
+        cmd.setWarehouse(warehouse);
+        cmd.setPayload(payload);
+
+        return cmd;
     }
 
     public Drone getDrone() {
@@ -53,5 +70,16 @@ public class Command {
 
     public void setOrder(Order order) {
         this.order = order;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%d %s %d %d %d",
+                drone.getID(),
+                type.name().charAt(0),
+                type != CommandType.LOAD ? warehouse.getID() : order.getID(),
+                payload.getProduct().getID(),
+                payload.getCount()
+        );
     }
 }
