@@ -13,16 +13,19 @@ public class Loader {
 
     private List<Product> products;
     private List<Warehouse> warehouses;
+    private List<Order> orders;
 
     public Loader(String filePath) {
         products = new ArrayList<>();
         warehouses = new ArrayList<>();
+        orders = new ArrayList<>();
 
         try {
             reader = new BufferedReader(new FileReader(filePath));
             readParameters();
             readProducts();
             readWarehouses();
+            readOrders();
 
             reader.close();
         } catch (IOException e) {
@@ -98,7 +101,31 @@ public class Loader {
         }
 
         System.out.printf("Found %d warehouses\n", warehouses.size());
+    }
 
+    private void readOrders() {
+        int count = Integer.parseInt(getNextLine()[0]);
+
+        for (int i = 0; i < count; i++) {
+            String[] posLine = getNextLine();
+            int row = Integer.parseInt(posLine[0]);
+            int col = Integer.parseInt(posLine[1]);
+
+            Order order = new Order(new Point(row, col));
+
+            getNextLine(); // unused count
+
+            String[] productsLine = getNextLine();
+            for (String product : productsLine) {
+                int p = Integer.parseInt(product);
+                order.getProducts().add(products.get(p));
+            }
+
+            orders.add(order);
+
+        }
+
+        System.out.printf("Found %d orders\n", orders.size());
 
     }
 }
