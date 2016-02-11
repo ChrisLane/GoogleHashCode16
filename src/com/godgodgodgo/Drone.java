@@ -1,3 +1,7 @@
+package com.godgodgodgo;
+
+import java.awt.*;
+
 public class Drone {
     public final int capacity;
     int payload;
