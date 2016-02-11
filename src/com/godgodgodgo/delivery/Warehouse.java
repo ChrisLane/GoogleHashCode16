@@ -24,4 +24,13 @@ public class Warehouse {
     public int getID() {
         return id;
     }
+
+    @Override
+    public String toString() {
+        return "Warehouse{" +
+                "location=" + location +
+                ", id=" + id +
+                ", products=" + products +
+                '}';
+    }
 }

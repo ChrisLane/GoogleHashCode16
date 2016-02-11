@@ -27,4 +27,13 @@ public class Order {
     public int getID() {
         return id;
     }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "pos=" + pos +
+                ", products=" + products +
+                ", id=" + id +
+                '}';
+    }
 }

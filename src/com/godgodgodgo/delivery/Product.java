@@ -16,4 +16,12 @@ public class Product {
     public int getID() {
         return id;
     }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", weight=" + weight +
+                '}';
+    }
 }

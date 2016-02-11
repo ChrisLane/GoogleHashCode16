@@ -36,4 +36,14 @@ public class Drone {
     public Warehouse getWarehouse() {
         return warehouse;
     }
+
+    @Override
+    public String toString() {
+        return "Drone{" +
+                "destination=" + destination +
+                ", payload=" + payload +
+                ", id=" + id +
+                ", warehouse=" + warehouse +
+                '}';
+    }
 }
