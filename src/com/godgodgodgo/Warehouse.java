@@ -10,16 +10,12 @@ public class Warehouse {
      */
     private HashMap<Integer, Integer> products;
 
-    public Warehouse(Point location, HashMap<Integer, Integer> products) {
+    public Warehouse(Point location) {
         this.location = location;
-        this.products = products;
+        this.products = new HashMap<>();
     }
 
     public HashMap<Integer, Integer> getProducts() {
         return products;
-    }
-
-    public void setProducts(HashMap<Integer, Integer> products) {
-        this.products = products;
     }
 }

@@ -1,5 +1,6 @@
 package com.godgodgodgo;
 
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -11,14 +12,17 @@ public class Loader {
     private BufferedReader reader;
 
     private List<Product> products;
+    private List<Warehouse> warehouses;
 
     public Loader(String filePath) {
         products = new ArrayList<>();
+        warehouses = new ArrayList<>();
 
         try {
             reader = new BufferedReader(new FileReader(filePath));
             readParameters();
             readProducts();
+            readWarehouses();
 
             reader.close();
         } catch (IOException e) {
@@ -34,7 +38,7 @@ public class Loader {
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(-1);
-            return null;
+            return new String[0];
         }
     }
 
@@ -67,12 +71,34 @@ public class Loader {
      * 1   ≤ w eight  ≤ m aximum load of  a drone
      */
     private void readProducts() {
-        String[] nextLine = getNextLine();
-        int productCount = Integer.parseInt(nextLine[0]);
-
+        getNextLine(); // ignore count
         String[] productsLine = getNextLine();
         for (int i = 0, productsLineLength = productsLine.length; i < productsLineLength; i++) {
             products.add(new Product(i, Integer.parseInt(productsLine[i])));
         }
+        System.out.printf("Found %d products\n", products.size());
+    }
+
+    private void readWarehouses() {
+        String[] countLine = getNextLine();
+        int warehouseCount = Integer.parseInt(countLine[0]);
+
+        for (int i = 0; i < warehouseCount; i++) {
+            String[] posLine = getNextLine();
+            int row = Integer.parseInt(posLine[0]);
+            int col = Integer.parseInt(posLine[1]);
+
+            Warehouse warehouse = new Warehouse(new Point(row, col));
+
+            String[] productsLine = getNextLine();
+            for (int prod = 0; prod < products.size(); prod++)
+                warehouse.getProducts().put(prod, Integer.parseInt(productsLine[prod]));
+
+            warehouses.add(warehouse);
+        }
+
+        System.out.printf("Found %d warehouses\n", warehouses.size());
+
+
     }
 }
