@@ -10,5 +10,11 @@ public abstract class Strategy {
         this.loader = loader;
     }
 
-    public abstract StrategyOutput execute();
+    public abstract void begin();
+
+    public abstract void tick();
+
+    public abstract boolean isDone();
+
+    public abstract StrategyOutput terminate();
 }

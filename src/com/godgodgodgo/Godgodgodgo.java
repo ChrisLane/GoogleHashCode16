@@ -12,7 +12,15 @@ public class Godgodgodgo {
         strategy = new StupidStrategy(loader);
 
         System.out.println("Starting strategy...oh dear");
-        StrategyOutput output = strategy.execute();
+        strategy.begin();
+
+        for (int i = 0; i < Parameters.DEADLINE; i++) {
+            strategy.tick();
+            if (strategy.isDone())
+                break;
+        }
+
+        StrategyOutput output = strategy.terminate();
         output.export("busy_day.out");
 
         System.out.println("All done!");

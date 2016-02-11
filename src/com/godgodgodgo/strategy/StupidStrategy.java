@@ -8,8 +8,23 @@ public class StupidStrategy extends Strategy {
     }
 
     @Override
-    public StrategyOutput execute() {
-        System.out.println(":(");
-        return new StrategyOutput();
+    public void begin() {
+
     }
+
+    @Override
+    public void tick() {
+
+    }
+
+    @Override
+    public boolean isDone() {
+        return false;
+    }
+
+    @Override
+    public StrategyOutput terminate() {
+        return null;
+    }
+
 }
