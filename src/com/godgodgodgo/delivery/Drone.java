@@ -1,34 +1,33 @@
 package com.godgodgodgo.delivery;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Drone {
-    public final int capacity;
-    int payload;
-    Point destination;
+    private Point destination;
+    private List<Payload> payload;
+    private Warehouse warehouse;
 
-    public Drone(int capacity) {
-        this.capacity = capacity;
-    }
-
-    public int getCapacity() {
-        return capacity;
-    }
-
-    public int getPayload() {
-        return payload;
-    }
-
-    public void setPayload(int payload) {
-        this.payload = payload;
+    public Drone(Warehouse warehouse) {
+        this.warehouse = warehouse;
+        payload = new ArrayList<>();
     }
 
     public Point getDestination() {
         return destination;
     }
 
-    public void setDestination(Point destination) {
-        this.destination = destination;
+    public List<Payload> getPayload() {
+        return payload;
     }
 
+    public Warehouse getWarehouse() {
+        return warehouse;
+    }
+
+    public void setDestination(Point destination) {
+        this.destination = destination;
+        // todo something
+    }
 }

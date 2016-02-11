@@ -1,5 +1,6 @@
 package com.godgodgodgo;
 
+import com.godgodgodgo.delivery.Drone;
 import com.godgodgodgo.delivery.Order;
 import com.godgodgodgo.delivery.Product;
 import com.godgodgodgo.delivery.Warehouse;
@@ -18,11 +19,13 @@ public class Loader {
     private List<Product> products;
     private List<Warehouse> warehouses;
     private List<Order> orders;
+    private List<Drone> drones;
 
     public Loader(String filePath) {
         products = new ArrayList<>();
         warehouses = new ArrayList<>();
         orders = new ArrayList<>();
+        drones = new ArrayList<>();
 
         try {
             reader = new BufferedReader(new FileReader(filePath));
@@ -30,6 +33,8 @@ public class Loader {
             readProducts();
             readWarehouses();
             readOrders();
+
+            createDrones();
 
             reader.close();
         } catch (IOException e) {
@@ -70,6 +75,14 @@ public class Loader {
         System.out.println("Parameters.DRONE_COUNT = " + Parameters.DRONE_COUNT);
         System.out.println("Parameters.DEADLINE = " + Parameters.DEADLINE);
         System.out.println("Parameters.MAX_LOAD = " + Parameters.MAX_LOAD);
+    }
+
+    private void createDrones() {
+        drones = new ArrayList<>();
+        for (int i = 0; i < Parameters.DRONE_COUNT; i++)
+            drones.add(new Drone(warehouses.get(0)));
+
+        System.out.printf("Created %d drones\n", this.drones.size());
     }
 
     /**
