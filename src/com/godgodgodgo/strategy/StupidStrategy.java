@@ -5,6 +5,7 @@ import com.godgodgodgo.Parameters;
 import com.godgodgodgo.delivery.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class StupidStrategy extends Strategy {
     private List<Command> commands;
@@ -21,53 +22,83 @@ public class StupidStrategy extends Strategy {
 
     @Override
     public void begin() {
-        Map<Warehouse, List<Order>> possibleOrders = getWarehouseSatisfactionafiers();
+        Map<Warehouse, ArrayDeque<Order>> possibleOrders = getWarehouseSatisfactionafiers();
         // todo sort by order distance with priorty queue and comparator
+        for (int timeTick = 0; timeTick < Parameters.DEADLINE; timeTick++) {
 
-        // all drones do an order
-        int maxDistance = 0;
-        Warehouse currentWarehouse = loader.getWarehouses().get(0);
-        for (int i = 0; i < Parameters.DRONE_COUNT; i++) {
-            Drone drone = loader.getDrones().get(i);
-            Order order = possibleOrders.get(currentWarehouse).get(i);
+            for (Drone drone : loader.getDrones()) {
+                if (!drone.hasArrived(timeTick))
+                    continue;
 
-            Payload payload = decideOnPayload(drone, order);
-            if (payload != null) {
-                int currentDistance = 1;
-                // todo issue command
-                Command loadCommand = Command.createLoadCommand(drone, currentWarehouse, payload);
-                drone.setWarehouse(currentWarehouse);
+                List<Warehouse> closestWarehouses = findClosestWarehouse(drone);
+
+                if (closestWarehouses.isEmpty())
+                    break;
+
+                Order order = null;
+
+                for (Warehouse warehouse : closestWarehouses) {
+                    if (order != null)
+                        break;
+
+                    order = possibleOrders.get(warehouse).poll();
+
+                }
+
+                if (order == null)
+                    break;
+
+
+                Payload payload = decideOnPayload(drone, order);
+
+                if (payload == null) {
+                    continue;
+                }
+
+//                int currentDistance = 1;
+                Warehouse closestWarehouse = closestWarehouses.get(0);
+                Command loadCommand = Command.createLoadCommand(drone, closestWarehouse, payload);
+                drone.setWarehouse(closestWarehouse);
 
                 commands.add(loadCommand);
-                startTime.put(loadCommand, 0);
+                startTime.put(loadCommand, timeStep);
 
                 Command deliverCommand = Command.createDeliverCommand(
                         drone, order, payload
                 );
                 drone.setDestination(order.getPosition());
                 commands.add(deliverCommand);
-                startTime.put(deliverCommand, 0);
+                startTime.put(deliverCommand, timeStep);
 
-                currentDistance += drone.getDistanceToDestination();
-                System.out.println("currentDistance = " + currentDistance);
-                maxDistance = Math.max(currentDistance, maxDistance);
+//                currentDistance += drone.getDistanceToDestination();
+//                maxDistance = Math.max(currentDistance, maxDistance);
+
+
             }
-
-            // load the drone
-            // deliver
 
 
         }
 
-        this.timeStep = maxDistance;
-        commands.sort(new Comparator<Command>() {
-            @Override
-            public int compare(Command o1, Command o2) {
-                return o1.getType().compareTo(o2.getType());
-            }
-        });
+
+//        commands.sort((o1, o2) -> o1.getType().compareTo(o2.getType()));
 
 
+    }
+
+    private List<Warehouse> findClosestWarehouse(Drone drone) {
+
+        ArrayList<Warehouse> warehouses = new ArrayList<>(loader.getWarehouses());
+        warehouses.sort(
+                (o1, o2) -> Double.valueOf(o1.getLocation().distance(drone.getDestination())).compareTo(o2.getLocation().distance(drone.getDestination()))
+        );
+
+        // eurgh
+        int size = warehouses.size();
+        List<Warehouse> collect = warehouses.stream().filter(
+                w -> w.getProducts().values().stream().anyMatch(x -> x > 0)).collect(Collectors.toList());
+
+
+        return collect;
     }
 
     private Payload decideOnPayload(Drone drone, Order order) {
@@ -87,8 +118,8 @@ public class StupidStrategy extends Strategy {
     }
 
     // that IS how it's spelt
-    private Map<Warehouse, List<Order>> getWarehouseSatisfactionafiers() {
-        Map<Warehouse, List<Order>> possibleOrders = new LinkedHashMap<>();
+    private Map<Warehouse, ArrayDeque<Order>> getWarehouseSatisfactionafiers() {
+        Map<Warehouse, ArrayDeque<Order>> possibleOrders = new LinkedHashMap<>();
 
         List<Order> orders = loader.getOrders();
         for (Order order : orders) {
@@ -97,7 +128,7 @@ public class StupidStrategy extends Strategy {
                     .stream()
                     .filter(warehouse -> canBeSatisfiedByWarehouse(warehouse, order))
                     .forEach(warehouse -> {
-                        List<Order> current = possibleOrders.getOrDefault(warehouse, new ArrayList<>());
+                        ArrayDeque<Order> current = possibleOrders.getOrDefault(warehouse, new ArrayDeque<>());
                         current.add(order);
                         possibleOrders.put(warehouse, current);
                     });

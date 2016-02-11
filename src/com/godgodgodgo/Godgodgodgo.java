@@ -6,7 +6,13 @@ import com.godgodgodgo.strategy.StupidStrategy;
 
 public class Godgodgodgo {
     public static void main(String[] args) {
-        Loader loader = new Loader("res/busy_day.in");
+        String name = "busy_day";
+        String inFile = "res/" + name + ".in";
+        String outFile = name + ".out";
+
+
+
+        Loader loader = new Loader(inFile);
 
         Strategy strategy;
         strategy = new StupidStrategy(loader);
@@ -20,7 +26,7 @@ public class Godgodgodgo {
         }
 
         StrategyOutput output = strategy.terminate();
-        output.export("busy_day.out");
+        output.export(outFile);
 
         System.out.println("All done!");
     }

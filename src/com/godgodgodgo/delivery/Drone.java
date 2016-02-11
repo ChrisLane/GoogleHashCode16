@@ -12,10 +12,15 @@ public class Drone {
     private int id;
     private Warehouse warehouse;
 
+    private int startTime;
+
     public Drone(int id, Warehouse warehouse) {
         this.id = id;
         this.warehouse = warehouse;
+        this.destination = warehouse.getLocation();
         payload = new ArrayList<>();
+
+        startTime = 0;
     }
 
     public int getID() {
@@ -66,5 +71,9 @@ public class Drone {
         Payload p = new Payload(product, 1);
         payload.add(p);
         return p;
+    }
+
+    public boolean hasArrived(int currentTime) {
+        return startTime + getDistanceToDestination() >= currentTime;
     }
 }
