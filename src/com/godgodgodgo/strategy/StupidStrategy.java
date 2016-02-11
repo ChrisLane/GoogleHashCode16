@@ -12,7 +12,6 @@ public class StupidStrategy extends Strategy {
 
     @Override
     public void begin() {
-
     }
 
     @Override

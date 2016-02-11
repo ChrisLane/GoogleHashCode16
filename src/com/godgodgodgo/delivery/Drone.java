@@ -24,16 +24,16 @@ public class Drone {
         return destination;
     }
 
+    public void setDestination(Point destination) {
+        this.destination = destination;
+        // todo something
+    }
+
     public List<Payload> getPayload() {
         return payload;
     }
 
     public Warehouse getWarehouse() {
         return warehouse;
-    }
-
-    public void setDestination(Point destination) {
-        this.destination = destination;
-        // todo something
     }
 }
