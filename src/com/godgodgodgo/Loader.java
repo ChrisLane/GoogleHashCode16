@@ -3,12 +3,17 @@ package com.godgodgodgo;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Loader {
 
     private BufferedReader reader;
 
+    private List<Product> products;
+
     public Loader(String filePath) {
+        products = new ArrayList<>();
 
         try {
             reader = new BufferedReader(new FileReader(filePath));
@@ -28,6 +33,7 @@ public class Loader {
             return reader.readLine().split(" ");
         } catch (IOException e) {
             e.printStackTrace();
+            System.exit(-1);
             return null;
         }
     }
@@ -64,12 +70,8 @@ public class Loader {
         String[] nextLine = getNextLine();
         int productCount = Integer.parseInt(nextLine[0]);
 
-        String[] products = getNextLine();
-        for (String product : products) {
-            int weight = Integer.parseInt(product);
-            System.out.println("weight = " + weight);
-        }
-
-
+        String[] productsLine = getNextLine();
+        for (String product : productsLine)
+            products.add(new Product(Integer.parseInt(product)));
     }
 }
